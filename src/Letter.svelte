@@ -1,11 +1,12 @@
-<div>
+<div {id} {style}>
 	<svelte:component this={letterComponent} />
 </div>
 
 <script>
 import getLetterComponent from './util/get-letter-component';
 
-export let letter = 'a';
+export let id;
+export let letter;
 
 const letterComponent = getLetterComponent(letter);
 </script>
