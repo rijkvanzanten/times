@@ -1,0 +1,15 @@
+:root {
+	--fg: black;
+	--bg: white;
+}
+
+.letter {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.letter div {
+	position: absolute;
+	background-color: var(--bg);
+}
