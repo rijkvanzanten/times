@@ -1,8 +1,4 @@
-<div class="debug">
-	{$position.x}X {$position.y}Y
-</div>
-
-{#each $letters as { id, letter, pos } (id)}
+{#each letters as { id, letter } (id)}
 <div class="letters">
 	<Letter {letter} {id} />
 </div>
@@ -12,8 +8,9 @@
 
 <script>
 import Letter from './Letter.svelte';
-import { position, letters } from './stores';
 import generateID from './util/generate-id';
+
+let letters = [];
 
 function handleKeyDown(event) {
 	const key = event.key.toLowerCase();
@@ -35,11 +32,11 @@ function createLetter(letter) {
 		}
 	};
 
-	letters.update(list => [...list, letterObj]);
+	letters = [...letters, letterObj];
 }
 
 function removeLastLetter() {
-	letters.update(list => [...list.slice(0, list.length - 1)]);
+	letters = [...list.slice(0, list.length - 1)];
 }
 </script>
 
