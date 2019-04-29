@@ -9,7 +9,9 @@ const letterDefaultValues = {
 	id: null,
 	letter: 'a',
 	x: 0,
-	y: 0
+	y: 0,
+	width: 200,
+	height: 200
 };
 
 export function addLetter(initialValues) {
@@ -32,5 +34,5 @@ export function updateLetter(id, updates) {
 }
 
 export function removeLetter(id) {
-	letters.update(ls => ls = ls.filter(l => li !== id));
+	letters.update(ls => ls = ls.filter(l => l.id !== id));
 }

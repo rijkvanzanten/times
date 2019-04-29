@@ -1,12 +1,26 @@
-<div class="letter" {id} {style} on:mousedown={dragStart}>
+<div class="letter-parent {dragging ? 'dragging' : ''}" {id} {style} on:mousedown={dragStart}>
 	<svelte:component this={letterComponent} />
+	<div class="handles">
+		<div class="line" />
+		<DragHandle {id} position="top-left" />
+		<DragHandle {id} position="top" />
+		<DragHandle {id} position="top-right" />
+		<DragHandle {id} position="left" />
+		<DragHandle {id} position="right" />
+		<DragHandle {id} position="bottom-left" />
+		<DragHandle {id} position="bottom" />
+		<DragHandle {id} position="bottom-right" />
+	</div>
 </div>
 
 <script>
 import getLetterComponent from './util/get-letter-component';
 import { letters, updateLetter } from './stores';
+import DragHandle from './DragHandle.svelte';
 
 export let id;
+
+let dragging = false;
 
 $: letterObj = $letters.find(l => l.id === id);
 
@@ -17,8 +31,8 @@ let offsetY = 0;
 
 $: style = `
 	transform: translate(${letterObj.x}px, ${letterObj.y}px);
-	width: ${200}px;
-	height: ${200}px;
+	width: ${letterObj.width}px;
+	height: ${letterObj.height}px;
 `;
 
 function dragStart(event) {
@@ -26,13 +40,19 @@ function dragStart(event) {
 	window.addEventListener('mousemove', drag);
 	offsetX = event.clientX;
 	offsetY = event.clientY;
+	dragging = true;
 }
 
 function drag(event) {
-	updateLetter(id, {
+	const updates = {
 		x: letterObj.x - (offsetX - event.clientX),
 		y: letterObj.y - (offsetY - event.clientY)
-	});
+	};
+	
+	if (updates.x < 0) updates.x = 0;
+	if (updates.y < 0) updates.y = 0;
+
+	updateLetter(id, updates);
 
   offsetX = event.clientX;
   offsetY = event.clientY;
@@ -41,29 +61,46 @@ function drag(event) {
 function dragEnd() {
 	window.removeEventListener('mouseup', dragEnd);
 	window.removeEventListener('mousemove', drag);
+	dragging = false;
 }
 </script>
 
 <style>
-.letter {
-	--handle-size: 8px;
-	position: relative;
-}
-
-.handle {
+.letter-parent {
 	position: absolute;
-	width: var(--handle-size);
-	height: var(--handle-size);
-	border-radius: 50%;
-	background-color: var(--blue);
-	border: 2px solid var(--white);
+	cursor: grab;
 }
 
-.handle.bottom {
-	bottom: calc(-1 * var(--handle-size) / 2);
+.letter-parent.dragging {
+	cursor: grabbing;
 }
 
-.handle.right {
-	right: calc(-1 * var(--handle-size) / 2);
+.handles {
+	display: grid;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	grid-template-areas: 
+		"top-left    top    top-right"
+		"left        x      right"
+		"bottom-left bottom bottom-right";
+	opacity: 0;
+	transition: opacity 250ms ease-in-out;
+}
+
+.line {
+	border: 1px solid var(--blue);
+	position: absolute;
+  left: 5px;
+  top: 5px;
+  height: calc(100% - 10px);
+  width: calc(100% - 10px);
+  z-index: 2;
+}
+
+.letter-parent:hover .handles {
+	opacity: 1;
 }
 </style>

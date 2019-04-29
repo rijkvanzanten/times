@@ -17,7 +17,11 @@ function handleKeyDown(event) {
 	if (key === 'backspace') return removeLastLetter(key);
 
 	const allowedLetters = 'abcdefghijklmnopqrstuvwxyz'.split('');
-	if (allowedLetters.includes(key)) return addLetter({ letter: key });
+	if (allowedLetters.includes(key)) return addLetter({
+		letter: key,
+		x: Math.floor(Math.random() * (window.innerWidth - 200)),
+		y: Math.floor(Math.random() * (window.innerHeight - 200)),
+	});
 	return;
 }
 
