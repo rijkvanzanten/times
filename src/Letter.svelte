@@ -1,22 +1,25 @@
-<div {id} {style} on:mousedown={dragStart}>
+<div class="letter" {id} {style} on:mousedown={dragStart}>
 	<svelte:component this={letterComponent} />
 </div>
 
 <script>
 import getLetterComponent from './util/get-letter-component';
-import throttle from 'raf-throttle';
+import { letters, updateLetter } from './stores';
 
 export let id;
-export let letter;
 
-const letterComponent = getLetterComponent(letter);
+$: letterObj = $letters.find(l => l.id === id);
+
+$: letterComponent = getLetterComponent(letterObj.letter);
 
 let offsetX = 0;
 let offsetY = 0;
-let left = 0;
-let top = 0;
 
-$: style = `transform: translate(${left}px, ${top}px);`;
+$: style = `
+	transform: translate(${letterObj.x}px, ${letterObj.y}px);
+	width: ${200}px;
+	height: ${200}px;
+`;
 
 function dragStart(event) {
 	window.addEventListener('mouseup', dragEnd);
@@ -26,8 +29,10 @@ function dragStart(event) {
 }
 
 function drag(event) {
-	left = left - (offsetX - event.clientX);
-	top = top - (offsetY - event.clientY);
+	updateLetter(id, {
+		x: letterObj.x - (offsetX - event.clientX),
+		y: letterObj.y - (offsetY - event.clientY)
+	});
 
   offsetX = event.clientX;
   offsetY = event.clientY;
@@ -40,8 +45,25 @@ function dragEnd() {
 </script>
 
 <style>
-div {
-	width: 30vw;
-	height: 30vh;
+.letter {
+	--handle-size: 8px;
+	position: relative;
+}
+
+.handle {
+	position: absolute;
+	width: var(--handle-size);
+	height: var(--handle-size);
+	border-radius: 50%;
+	background-color: var(--blue);
+	border: 2px solid var(--white);
+}
+
+.handle.bottom {
+	bottom: calc(-1 * var(--handle-size) / 2);
+}
+
+.handle.right {
+	right: calc(-1 * var(--handle-size) / 2);
 }
 </style>

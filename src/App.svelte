@@ -1,16 +1,15 @@
-{#each letters as { id, letter } (id)}
 <div class="letters">
-	<Letter {letter} {id} />
+	{#each $letters as { id } (id)}
+	<Letter {id} />
+	{/each}
 </div>
-{/each}
 
 <svelte:window on:keydown={handleKeyDown} />
 
 <script>
 import Letter from './Letter.svelte';
 import generateID from './util/generate-id';
-
-let letters = [];
+import { letters, addLetter, removeLetter } from './stores';
 
 function handleKeyDown(event) {
 	const key = event.key.toLowerCase();
@@ -18,25 +17,14 @@ function handleKeyDown(event) {
 	if (key === 'backspace') return removeLastLetter(key);
 
 	const allowedLetters = 'abcdefghijklmnopqrstuvwxyz'.split('');
-	if (allowedLetters.includes(key)) return createLetter(key);
+	if (allowedLetters.includes(key)) return addLetter({ letter: key });
 	return;
 }
 
-function createLetter(letter) {
-	const letterObj = {
-		id: generateID(),
-		letter: letter,
-		pos: {
-			x: 0,
-			y: 0
-		}
-	};
-
-	letters = [...letters, letterObj];
-}
-
 function removeLastLetter() {
-	letters = [...list.slice(0, list.length - 1)];
+	if ($letters.length === 0) return;
+	const lastLetterID = $letters[$letters.length - 1].id;
+	removeLetter(lastLetterID);
 }
 </script>
 

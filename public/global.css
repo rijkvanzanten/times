@@ -1,6 +1,8 @@
 :root {
-	--fg: black;
-	--bg: white;
+	--fg: #000;
+	--bg: #fff;
+	--blue: #2780E6;
+	--white: #fff;
 }
 
 .letter {
