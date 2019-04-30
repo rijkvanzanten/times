@@ -17,7 +17,8 @@
 
 	$: letterObj = $letters.find(l => l.id === id);
 
-	const elementWidth = window.innerWidth - 30; // 30 is the width of the letter preview on the left
+	const elementWidth = window.innerWidth - 38;
+	// 30 is the width of the letter preview on the left + 2x4 padding
 
 	let cursorLeft = -1;
 	$: cursorStyle = `transform: translateX(${cursorLeft}px);`;
