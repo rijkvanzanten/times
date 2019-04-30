@@ -11,7 +11,8 @@ const letterDefaultValues = {
 	x: 0,
 	y: 0,
 	width: 200,
-	height: 200
+	height: 200,
+	keyframes: []
 };
 
 export function addLetter(initialValues) {
@@ -24,7 +25,7 @@ export function addLetter(initialValues) {
 }
 
 export function updateLetter(id, updates) {
-	letters.update(ls => ls = ls.map(l => {
+	letters.update(ls => ls.map(l => {
 		if (l.id === id) {
 			merge(l, updates);
 		}

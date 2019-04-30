@@ -4,10 +4,13 @@
 	{/each}
 </div>
 
+<Timeline />
+
 <svelte:window on:keydown={handleKeyDown} />
 
 <script>
 import Letter from './Letter.svelte';
+import Timeline from './Timeline.svelte';
 import generateID from './util/generate-id';
 import { letters, addLetter, removeLetter } from './stores';
 
@@ -33,14 +36,9 @@ function removeLastLetter() {
 </script>
 
 <style>
-.debug {
-	background-color: #000;
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	padding: 20px;
-	color: white;
-	font-family: monospace;
-	width: 100%;
+.letters {
+	width: 100vw;
+	height: 84vh;
+	background-color: var(--bg);
 }
 </style>

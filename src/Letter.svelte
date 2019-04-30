@@ -1,4 +1,10 @@
-<div class="letter-parent {dragging ? 'dragging' : ''}" {id} {style} on:mousedown={dragStart}>
+<div 
+	class="letter-parent {dragging ? 'dragging' : ''} {letterObj.hover ? 'hover' : ''}"
+	{id} 
+	{style} 
+	on:mousedown={dragStart}
+	on:mouseover={hoverLetter}
+	on:mouseout={unhoverLetter}>
 	<svelte:component this={letterComponent} />
 	<div class="handles">
 		<div class="line" />
@@ -63,6 +69,14 @@ function dragEnd() {
 	window.removeEventListener('mousemove', drag);
 	dragging = false;
 }
+
+function hoverLetter() {
+	updateLetter(id, { hover: true });
+}
+
+function unhoverLetter() {
+	updateLetter(id, { hover: false });
+}
 </script>
 
 <style>
@@ -100,7 +114,7 @@ function dragEnd() {
   z-index: 2;
 }
 
-.letter-parent:hover .handles {
+.letter-parent.hover .handles {
 	opacity: 1;
 }
 </style>
