@@ -1,3 +1,9 @@
+<svelte:head>
+	<div>
+		{@html animationStyles }
+	</div>
+</svelte:head>
+
 <div class="letters">
 	{#each $letters as { id } (id)}
 	<Letter {id} />
@@ -14,6 +20,22 @@ import Timeline from './Timeline.svelte';
 import generateID from './util/generate-id';
 import { letters, playState, playPercentage } from './stores';
 
+$: animationStyles = `
+<style>
+	${$letters.reduce((acc, l) => acc + `
+		@keyframes a-${l.id} {
+			${l.keyframes.reduce((acc, keyframe) => acc + `
+				${keyframe.percentage}% {
+					width: ${keyframe.width}px;
+					height: ${keyframe.height}px;
+					transform: translate(${keyframe.x}px, ${keyframe.y}px);
+				}
+			`, '')}
+		}
+	`, '')}
+</style>
+`
+
 function handleKeyDown(event) {
 	const key = event.key.toLowerCase();
 
@@ -26,9 +48,6 @@ function handleKeyDown(event) {
 		const randomX = Math.floor(Math.random() * (window.innerWidth - 200));
 		const randomY = Math.floor(Math.random() * (window.innerHeight - 200));
 
-		const randomX2 = Math.floor(Math.random() * (window.innerWidth - 200));
-		const randomY2 = Math.floor(Math.random() * (window.innerHeight - 200));
-
 		return letters.update(ls => [...ls, {
 			id: generateID(),
 			letter: key,
@@ -37,22 +56,7 @@ function handleKeyDown(event) {
 			width: 200,
 			height: 200,
 			hover: false,
-			keyframes: [
-				{
-					percentage: 0,
-					x: randomX,
-					y: randomY,
-					width: 200,
-					height: 200
-				},
-				{
-					percentage: 100,
-					x: randomX2,
-					y: randomY2,
-					width: 200,
-					height: 200
-				}
-			]
+			keyframes: []
 		}]);
 	}
 
@@ -67,20 +71,6 @@ function removeLastLetter() {
 
 function togglePlay() {
 	playState.update(playing => !playing);
-	render();
-}
-
-function render() {
-	playPercentage.update(p => p + 1);
-
-	if ($playState) {
-		if ($playPercentage >= 100) {
-			playState.update(playing => !playing);
-			playPercentage.update(p => 0);
-		} else {
-			requestAnimationFrame(render);
-		}
-	}
 }
 </script>
 

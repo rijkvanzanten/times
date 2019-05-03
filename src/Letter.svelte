@@ -21,7 +21,7 @@
 
 <script>
 import getLetterComponent from './util/get-letter-component';
-import { letters, updateLetter } from './stores';
+import { letters, updateLetter, playState } from './stores';
 import DragHandle from './DragHandle.svelte';
 
 export let id;
@@ -39,6 +39,7 @@ $: style = `
 	transform: translate(${letterObj.x}px, ${letterObj.y}px);
 	width: ${letterObj.width}px;
 	height: ${letterObj.height}px;
+	${$playState ? `animation: a-${letterObj.id} var(--animation-speed) infinite;` : ''}
 `;
 
 function dragStart(event) {
