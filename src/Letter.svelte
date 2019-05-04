@@ -1,10 +1,9 @@
-<div 
-	class="letter-parent {dragging ? 'dragging' : ''} {letterObj.hover ? 'hover' : ''}"
-	{id} 
-	{style} 
+<div
+	class="letter-parent {dragging ? 'dragging' : ''} {letterObj.active ? 'active' : ''}"
+	{id}
+	{style}
 	on:mousedown={dragStart}
-	on:mouseover={hoverLetter}
-	on:mouseout={unhoverLetter}>
+	on:click|stopPropagation={makeActive}>
 	<svelte:component this={letterComponent} />
 	<div class="handles">
 		<div class="line" />
@@ -43,6 +42,7 @@ $: style = `
 `;
 
 function dragStart(event) {
+	makeActive();
 	window.addEventListener('mouseup', dragEnd);
 	window.addEventListener('mousemove', drag);
 	offsetX = event.clientX;
@@ -55,7 +55,7 @@ function drag(event) {
 		x: letterObj.x - (offsetX - event.clientX),
 		y: letterObj.y - (offsetY - event.clientY)
 	};
-	
+
 	if (updates.x < 0) updates.x = 0;
 	if (updates.y < 0) updates.y = 0;
 
@@ -71,12 +71,12 @@ function dragEnd() {
 	dragging = false;
 }
 
-function hoverLetter() {
-	updateLetter(id, { hover: true });
-}
-
-function unhoverLetter() {
-	updateLetter(id, { hover: false });
+function makeActive() {
+	letters.update(ls => ls.map(l => {
+		l.active = false;
+		if (l.id === id) l.active = true;
+		return l;
+	}));
 }
 </script>
 
@@ -97,12 +97,12 @@ function unhoverLetter() {
 	top: 0;
 	width: 100%;
 	height: 100%;
-	grid-template-areas: 
+	grid-template-areas:
 		"top-left    top    top-right"
 		"left        x      right"
 		"bottom-left bottom bottom-right";
 	opacity: 0;
-	transition: opacity 250ms ease-in-out;
+	transition: opacity 100ms ease-in-out;
 }
 
 .line {
@@ -115,7 +115,7 @@ function unhoverLetter() {
   z-index: 2;
 }
 
-.letter-parent.hover .handles {
+.letter-parent.active .handles {
 	opacity: 1;
 }
 </style>

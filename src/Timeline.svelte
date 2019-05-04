@@ -1,9 +1,8 @@
 <div class="timeline">
 	{#each $letters as letterObj (letterObj.id)}
-	<div 
+	<div
 		class="bar {letterObj.hover && 'hover'}"
-		on:mouseover={() => enableHover(letterObj.id)}
-		on:mouseout={() => disableHover(letterObj.id)}>
+		on:click={() => makeActive(letterObj.id)}>
 		<span class="letter">
 			({letterObj.letter})
 		</span>
@@ -13,15 +12,15 @@
 </div>
 
 <script>
-	import { letters, updateLetter } from './stores';
+	import { letters } from './stores';
 	import Keyframes from './Keyframes.svelte';
 
-	function enableHover(id) {
-		updateLetter(id, { hover: true });
-	}
-
-	function disableHover(id) {
-		updateLetter(id, { hover: false });
+	function makeActive(id) {
+		letters.update(ls => ls.map(l => {
+			l.active = false;
+			if (l.id === id) l.active = true;
+			return l;
+		}));
 	}
 </script>
 

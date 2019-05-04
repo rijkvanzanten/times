@@ -4,7 +4,7 @@
 	</div>
 </svelte:head>
 
-<div class="letters">
+<div class="letters" on:click={deactiveLetters}>
 	{#each $letters as { id } (id)}
 	<Letter {id} />
 	{/each}
@@ -71,6 +71,13 @@ function removeLastLetter() {
 
 function togglePlay() {
 	playState.update(playing => !playing);
+}
+
+function deactiveLetters(event) {
+	letters.update(ls => ls.map(l => {
+		l.active = false;
+		return l;
+	}));
 }
 </script>
 
