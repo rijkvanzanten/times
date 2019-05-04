@@ -24,7 +24,10 @@
 	$: cursorStyle = `transform: translateX(${cursorLeft}px);`;
 
 	function handleMove(event) {
-		cursorLeft = event.layerX;
+		const mouseLeft = event.layerX;
+		const percentage = Math.round(mouseLeft / elementWidth * 100);
+
+		cursorLeft = (percentage * elementWidth) / 100;
 	}
 
 	function handleOut(event) {
@@ -87,5 +90,9 @@
 
 .keyframe {
 	background-color: var(--blue);
+}
+
+.keyframe:hover {
+	background-color: var(--red);
 }
 </style>
