@@ -10,6 +10,7 @@
 	{/each}
 </div>
 
+<OptionsBar />
 <Timeline />
 
 <svelte:window on:keydown={handleKeyDown} />
@@ -17,6 +18,7 @@
 <script>
 import Letter from './Letter.svelte';
 import Timeline from './Timeline.svelte';
+import OptionsBar from './OptionsBar.svelte';
 import generateID from './util/generate-id';
 import { letters, playState, playPercentage } from './stores';
 
@@ -82,8 +84,8 @@ function deactiveLetters(event) {
 
 <style>
 .letters {
-	width: 100vw;
-	height: 84vh;
+	width: 100%;
 	background-color: var(--bg);
+	flex-grow: 1;
 }
 </style>

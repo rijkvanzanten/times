@@ -31,15 +31,14 @@
 <style>
 .timeline {
 	width: 100%;
-	position: absolute;
-	bottom: 0;
-	height: 16vh;
 	color: var(--white);
 	overflow-y: auto;
 	font-family: monospace;
 	z-index: 10;
 	background-color: var(--gray);
 	cursor: pointer;
+	flex-basis: 14vh;
+	position: relative;
 }
 
 .bar {
