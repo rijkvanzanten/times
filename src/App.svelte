@@ -39,7 +39,7 @@ $: animationStyles = `
 function handleKeyDown(event) {
 	const key = event.key.toLowerCase();
 
-	if (key === 'backspace') return removeLastLetter(key);
+	if (key === 'backspace') return removeActiveLetter(key);
 	if (key === ' ') return togglePlay();
 
 	const allowedLetters = 'abcdefghijklmnopqrstuvwxyz'.split('');
@@ -50,12 +50,12 @@ function handleKeyDown(event) {
 
 		return letters.update(ls => [...ls, {
 			id: generateID(),
+			active: false,
 			letter: key,
 			x: randomX,
 			y: randomY,
 			width: 200,
 			height: 200,
-			hover: false,
 			keyframes: []
 		}]);
 	}
@@ -63,10 +63,9 @@ function handleKeyDown(event) {
 	return;
 }
 
-function removeLastLetter() {
+function removeActiveLetter() {
 	if ($letters.length === 0) return;
-	const lastLetterID = $letters[$letters.length - 1].id;
-	letters.update(ls => ls = ls.filter(l => l.id !== lastLetterID));
+	letters.update(ls => ls = ls.filter(l => l.active === false));
 }
 
 function togglePlay() {
