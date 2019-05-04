@@ -1,7 +1,7 @@
 <div class="timeline">
 	{#each $letters as letterObj (letterObj.id)}
 	<div
-		class="bar {letterObj.hover && 'hover'}"
+		class="bar {letterObj.active && 'active'}"
 		on:click={() => makeActive(letterObj.id)}>
 		<span class="letter">
 			({letterObj.letter})
@@ -45,7 +45,7 @@
 	display: flex;
 }
 
-.bar.hover {
+.bar.active {
 	color: var(--blue);
 }
 
