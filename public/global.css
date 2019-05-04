@@ -8,6 +8,7 @@
 	--gray-dark: #20252C;
 	--gray-light: #454F5F;
 	--animation-speed: 3s;
+	--family-monospace: monospace;
 }
 
 * {

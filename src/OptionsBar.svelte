@@ -10,13 +10,28 @@
 		</svg>
 		{/if}
 	</button>
+
+	<label>
+		Easing: 
+		<select on:change={setEasing}>
+			<option selected value="linear">Linear</option>
+			<option value="ease">Ease</option>
+			<option value="ease-in">Ease In</option>
+			<option value="ease-out">Ease Out</option>
+			<option value="ease-in-out">Ease In Out</option>
+		</select>
+	</label>
 </div>
 
 <script>
-	import { playState } from './stores';
+	import { playState, playEasing } from './stores';
 
 	function togglePlay() {
 		playState.update(p => !p);
+	}
+
+	function setEasing(event) {
+		playEasing.update(e => event.target.value);
 	}
 </script>
 
@@ -25,6 +40,17 @@
 		width: 100%;
 		padding: 10px;
 		background-color: var(--white);
+		display: flex;
+		align-items: center;
+		font-family: var(--family-monospace);
+	}
+
+	.options-bar * {
+		font-family: inherit;
+	}
+
+	.play-pause {
+		margin-right: 1rem;
 	}
 
 	.play-pause svg {

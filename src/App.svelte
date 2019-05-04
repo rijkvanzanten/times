@@ -48,7 +48,7 @@ function handleKeyDown(event) {
 
 	if (allowedLetters.includes(key)) {
 		const randomX = Math.floor(Math.random() * (window.innerWidth - 200));
-		const randomY = Math.floor(Math.random() * (window.innerHeight - 200));
+		const randomY = Math.floor(Math.random() * (window.innerHeight - 400));
 
 		return letters.update(ls => [...ls, {
 			id: generateID(),

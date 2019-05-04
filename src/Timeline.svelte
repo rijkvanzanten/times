@@ -1,6 +1,9 @@
 <div class="timeline">
 	<div class="play-indicator">
-		<div class="line {$playState ? 'active' : ''}"></div>
+		<div
+			class="line {$playState ? 'active' : ''}"
+			style={$playState ? activeLineStyles : ''}
+		></div>
 	</div>
 
 	{#each $letters as letterObj (letterObj.id)}
@@ -16,8 +19,10 @@
 </div>
 
 <script>
-	import { letters, playState } from './stores';
+	import { letters, playState, playEasing } from './stores';
 	import Keyframes from './Keyframes.svelte';
+
+	$: activeLineStyles = `animation-timing-function:  ${$playEasing};`
 
 	function makeActive(id) {
 		letters.update(ls => ls.map(l => {
@@ -33,7 +38,7 @@
 	width: 100%;
 	color: var(--white);
 	overflow-y: auto;
-	font-family: monospace;
+	font-family: var(--family-monospace);
 	z-index: 10;
 	background-color: var(--gray);
 	cursor: pointer;
@@ -79,7 +84,7 @@
 
 .play-indicator .line.active {
 	display: block;
-	animation: move var(--animation-speed) infinite linear;
+	animation: move var(--animation-speed) infinite;
 }
 
 @keyframes move {
