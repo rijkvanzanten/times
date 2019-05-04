@@ -21,10 +21,24 @@
 			<option value="ease-in-out">Ease In Out</option>
 		</select>
 	</label>
+
+	<label>
+		Duration:
+		<input type="number" step="0.5" value={$playDuration} on:input={setDuration} /> Seconds
+	</label>
+
+	<label>
+		Direction:
+		<select on:change={setDirection}>
+			<option selected value="normal">Normal</option>
+			<option value="alternate">Alternate</option>
+			<option value="reverse">Reverse</option>
+		</select>
+	</label>
 </div>
 
 <script>
-	import { playState, playEasing } from './stores';
+	import { playState, playEasing, playDuration, playDirection } from './stores';
 
 	function togglePlay() {
 		playState.update(p => !p);
@@ -32,6 +46,14 @@
 
 	function setEasing(event) {
 		playEasing.update(e => event.target.value);
+	}
+
+	function setDuration(event) {
+		playDuration.update(s => event.target.value);
+	}
+
+	function setDirection(event) {
+		playDirection.update(d => event.target.value);
 	}
 </script>
 
@@ -49,8 +71,8 @@
 		font-family: inherit;
 	}
 
-	.play-pause {
-		margin-right: 1rem;
+	.options-bar > * {
+		margin-right: 1.5rem;
 	}
 
 	.play-pause svg {

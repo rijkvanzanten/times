@@ -19,10 +19,14 @@
 </div>
 
 <script>
-	import { letters, playState, playEasing } from './stores';
+	import { letters, playState, playEasing, playDuration, playDirection } from './stores';
 	import Keyframes from './Keyframes.svelte';
 
-	$: activeLineStyles = `animation-timing-function:  ${$playEasing};`
+	$: activeLineStyles = `
+		animation-timing-function:  ${$playEasing};
+		animation-duration: ${$playDuration}s;
+		animation-direction: ${$playDirection};
+	`
 
 	function makeActive(id) {
 		letters.update(ls => ls.map(l => {
@@ -84,7 +88,8 @@
 
 .play-indicator .line.active {
 	display: block;
-	animation: move var(--animation-speed) infinite;
+	animation-name: move;
+	animation-iteration-count: infinite;
 }
 
 @keyframes move {

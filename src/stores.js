@@ -8,6 +8,8 @@ export const letters = writable([]);
 export const playState = writable(false);
 export const playPercentage = writable(0);
 export const playEasing = writable('linear');
+export const playDuration = writable(3);
+export const playDirection = writable('normal');
 
 export function updateLetter(id, updates) {
 	letters.update(ls => ls.map(l => {
