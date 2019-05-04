@@ -51,7 +51,7 @@
 .bottom {
 	top: 52.4%;
 	left: 30.6%;
-	width: 13.2%;
+	width: 13.4%;
 	height: 41.7%;
 	clip-path: polygon(0% 1.1%, 0% 100%, 0% 100%, 100% 100%, 100% 16%, 64.5% 0.5%);
 	border-bottom-left-radius: 100% 21%;
@@ -73,7 +73,6 @@
 	height: 10.6%;
 	background: transparent;
 	overflow: hidden;
-
 }
 
 .bottom-right-box .circle {
