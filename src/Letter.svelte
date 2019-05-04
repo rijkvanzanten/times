@@ -38,7 +38,7 @@ $: style = `
 	transform: translate(${letterObj.x}px, ${letterObj.y}px);
 	width: ${letterObj.width}px;
 	height: ${letterObj.height}px;
-	${$playState ? `animation: a-${letterObj.id} var(--animation-speed) infinite;` : ''}
+	${$playState ? `animation: a-${letterObj.id} var(--animation-speed) infinite linear;` : ''}
 `;
 
 function dragStart(event) {
