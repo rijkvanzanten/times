@@ -57,7 +57,7 @@
 }
 
 .bottom-fill {
-	height: 17.5%;
+	height: 17.8%;
 	width: 51.8%;
 	top: 65.6%;
 	left: 19.8%;
