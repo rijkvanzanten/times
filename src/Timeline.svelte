@@ -1,4 +1,8 @@
 <div class="timeline">
+	<div class="play-indicator">
+		<div class="line {$playState ? 'active' : ''}"></div>
+	</div>
+
 	{#each $letters as letterObj (letterObj.id)}
 	<div
 		class="bar {letterObj.active && 'active'}"
@@ -12,7 +16,7 @@
 </div>
 
 <script>
-	import { letters } from './stores';
+	import { letters, playState } from './stores';
 	import Keyframes from './Keyframes.svelte';
 
 	function makeActive(id) {
@@ -35,6 +39,7 @@
 	font-family: monospace;
 	z-index: 10;
 	background-color: var(--gray);
+	cursor: pointer;
 }
 
 .bar {
@@ -52,5 +57,34 @@
 .letter {
 	flex-basis: 30px;
 	border-right: 1px solid var(--gray-light);
+}
+
+.play-indicator {
+	width: calc(100% - 31px);
+	height: 100%;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.play-indicator .line {
+	width: 1px;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: var(--red);
+	pointer-events: none;
+	display: none;
+}
+
+.play-indicator .line.active {
+	display: block;
+	animation: move var(--animation-speed) infinite linear;
+}
+
+@keyframes move {
+	from { left: 0; }
+	to { left: 100%; }
 }
 </style>
