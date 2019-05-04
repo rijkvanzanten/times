@@ -35,6 +35,7 @@
 	overflow-y: auto;
 	font-family: monospace;
 	z-index: 10;
+	background-color: var(--gray);
 }
 
 .bar {
