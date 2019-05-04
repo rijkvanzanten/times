@@ -35,6 +35,10 @@
 		const mouseLeft = event.layerX;
 		const percentage = Math.round(mouseLeft / elementWidth * 100);
 
+		const percentageExists = !!letterObj.keyframes.find(k => k.percentage === percentage);
+
+		if (percentageExists) return removeKeyframe(percentage);
+
 		const newKeyframes = [
 			...letterObj.keyframes,
 			{
@@ -53,6 +57,15 @@
 
 			return l;
 		}));
+	}
+
+	function removeKeyframe(percentage) {
+		letters.update(ls => ls.map(l => {
+			if (l.id === id) {
+				l.keyframes = l.keyframes.filter(k => k.percentage !== percentage);
+			}
+			return l;
+		}))
 	}
 </script>
 
