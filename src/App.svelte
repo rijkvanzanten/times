@@ -21,6 +21,7 @@ import Timeline from './Timeline.svelte';
 import OptionsBar from './OptionsBar.svelte';
 import generateID from './util/generate-id';
 import { letters, playState, playPercentage } from './stores';
+import { onMount } from 'svelte';
 
 $: animationStyles = `
 <style>
@@ -38,6 +39,40 @@ $: animationStyles = `
 </style>
 `
 
+const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+
+onMount(() => {
+	const letterObjects = 'times'.split('').map(letter => {
+		return {
+			id: generateID(),
+			active: false,
+			letter: letter,
+			x: random(0, window.innerWidth - 200),
+			y: random(0, window.innerHeight - 400),
+			width: random(50, 300),
+			height: random(50, 300),
+			keyframes: [
+				{
+					percentage: random(20, 80),
+					x: random(0, window.innerWidth - 200),
+					y: random(0, window.innerHeight - 400),
+					width: random(50, 300),
+					height: random(50, 300),
+				},
+				{
+					percentage: random(20, 80),
+					x: random(0, window.innerWidth - 200),
+					y: random(0, window.innerHeight - 400),
+					width: random(50, 300),
+					height: random(50, 300),
+				}
+			]
+		};
+	});
+
+	letters.update(ls => letterObjects);
+});
+
 function handleKeyDown(event) {
 	const key = event.key.toLowerCase();
 
@@ -50,16 +85,19 @@ function handleKeyDown(event) {
 		const randomX = Math.floor(Math.random() * (window.innerWidth - 200));
 		const randomY = Math.floor(Math.random() * (window.innerHeight - 400));
 
-		return letters.update(ls => [...ls, {
-			id: generateID(),
-			active: false,
-			letter: key,
-			x: randomX,
-			y: randomY,
-			width: 200,
-			height: 200,
-			keyframes: []
-		}]);
+		return letters.update(ls => [
+			...ls.map(l => ({ ...l, active: false })),
+			{
+				id: generateID(),
+				active: true,
+				letter: key,
+				x: randomX,
+				y: randomY,
+				width: 200,
+				height: 200,
+				keyframes: []
+			}
+		]);
 	}
 
 	return;

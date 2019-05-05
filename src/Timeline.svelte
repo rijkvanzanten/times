@@ -93,7 +93,7 @@
 }
 
 @keyframes move {
-	from { left: 0; }
-	to { left: 100%; }
+	from { transform: translateX(31px); }
+	to { transform: translateX(100vw); }
 }
 </style>

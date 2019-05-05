@@ -35,6 +35,8 @@
 			<option value="reverse">Reverse</option>
 		</select>
 	</label>
+
+	<p>Type to add letters.</p>
 </div>
 
 <script>
@@ -71,8 +73,12 @@
 		font-family: inherit;
 	}
 
-	.options-bar > * {
+	.options-bar > *:not(:last-child) {
 		margin-right: 1.5rem;
+	}
+
+	.options-bar label:nth-of-type(3) {
+		flex-grow: 1;
 	}
 
 	.play-pause svg {
